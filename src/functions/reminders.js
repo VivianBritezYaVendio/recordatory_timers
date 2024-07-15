@@ -8,7 +8,7 @@ const path = '/task/send-message-after23h';
 app.timer('reminders', {
     schedule:' 0 */3 * * * *',
     handler: async (myTimer, context) => {
-        context.log('Timer function processed request.');
+        context.log('Timer function processed request =>');
         for (const host of hosts) {
             const url = `${host}${path}`;
            try {
