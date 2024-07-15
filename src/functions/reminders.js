@@ -13,7 +13,7 @@ app.timer('reminders', {
             const url = `${host}${path}`;
            try {
                 const response = await axios.get(url);
-                context.log(`GET to ${url} succeeded with status: ${response.status}`);
+                context.log(`GET ==> to ${url} succeeded with status: ${response.status}`);
             } catch (error) {
                 context.log(`GET to ${url} failed with error: ${error.message}`);
             } 
