@@ -1,22 +1,20 @@
 const { app } = require('@azure/functions');
-const axios = require('axios');
+const { sendMessage } = require('../service/reminder.service');
 require('dotenv').config()
+const decisionTree = JSON.parse(process.env.PAYLOAD_TREE);
 
-const hosts = process.env.URLS_TO_SENDMESSAGE.split(',');
-const path = '/task/send-message-after23h';
 
 app.timer('reminders', {
-    schedule:' 0 */3 * * * *',
+    schedule: "0 0 */12 * * *",
     handler: async (myTimer, context) => {
+        const config = decisionTree
+
         context.log('Timer function processed request =>');
-        for (const host of hosts) {
-            const url = `${host}${path}`;
-           try {
-                const response = await axios.get(url);
-                context.log(`GET ==> to ${url} succeeded with status: ${response.status}`);
-            } catch (error) {
-                context.log(`GET to ${url} failed with error: ${error.message}`);
-            } 
+        try {
+           const data =  await sendMessage(config);
+              context.log('Data:', data);
+        } catch (error) {
+            console.error('Error:', error.message);
         }
     }
 });
